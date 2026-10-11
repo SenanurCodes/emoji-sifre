@@ -1,10 +1,9 @@
 import prisma from '@/lib/db'
 
-// Next.js 16.4'ün canlı veri çekerken sayfayı engellememek için istediği yeni kural bu!
-export const instant = false;
+// En sağlam yöntem: Sayfanın önbelleğini sıfırlar, her ziyarette veriyi canlı çeker
+export const revalidate = 0;
 
 export default async function AdminPage() {
-  // Veritabanından tüm mesajları en yeniden en eskiye doğru çekiyoruz
   const messages = await prisma.message.findMany({
     orderBy: { createdAt: 'desc' }
   });
@@ -37,7 +36,6 @@ export default async function AdminPage() {
                 {msg.encryptedEmoji}
               </p>
               
-              {/* HTML'in doğal açılır-kapanır pencere özelliği */}
               <details className="cursor-pointer group">
                 <summary className="w-full text-center bg-gray-700 hover:bg-yellow-500 hover:text-gray-900 text-white font-bold py-3 px-4 rounded-xl inline-block transition-colors list-none select-none">
                   Şifreyi Çöz 🔓
