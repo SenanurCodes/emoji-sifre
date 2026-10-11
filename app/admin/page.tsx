@@ -1,7 +1,7 @@
 import prisma from '@/lib/db'
 
-// En sağlam yöntem: Sayfanın önbelleğini sıfırlar, her ziyarette veriyi canlı çeker
-export const revalidate = 0;
+// Sayfa her ziyarette veritabanından canlı veri çeker (önbellek yok)
+export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
   const messages = await prisma.message.findMany({
@@ -31,11 +31,11 @@ export default async function AdminPage() {
                   {msg.createdAt.toLocaleDateString('tr-TR')} - {msg.createdAt.toLocaleTimeString('tr-TR')}
                 </span>
               </div>
-              
+
               <p className="text-3xl mb-6 break-words tracking-widest text-center">
                 {msg.encryptedEmoji}
               </p>
-              
+
               <details className="cursor-pointer group">
                 <summary className="w-full text-center bg-gray-700 hover:bg-yellow-500 hover:text-gray-900 text-white font-bold py-3 px-4 rounded-xl inline-block transition-colors list-none select-none">
                   Şifreyi Çöz 🔓
